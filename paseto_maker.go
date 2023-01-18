@@ -13,13 +13,6 @@ type PasetoMaker struct {
 	symmetricKey []byte
 }
 
-func (payload *Payload) Valid() error {
-	if time.Now().After(payload.ExpiredAt) {
-		return ErrExpiredToken
-	}
-	return nil
-}
-
 func NewPasetoMaker(symmetricKey string) (Maker, error) {
 	if len(symmetricKey) != chacha20poly1305.KeySize {
 		return nil, fmt.Errorf("invalid key size: must be exactly %d characters", chacha20poly1305.KeySize)
