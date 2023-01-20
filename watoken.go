@@ -1,11 +1,19 @@
 package watoken
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 
 	"aidanwoods.dev/go-paseto"
 )
+
+type Payload struct {
+	Id  string    `json:"id"`
+	Exp time.Time `json:"exp"`
+	Iat time.Time `json:"iat"`
+	Nbf time.Time `json:"nbf"`
+}
 
 func GenerateKey() (privateKey, publicKey string) {
 	secretKey := paseto.NewV4AsymmetricSecretKey() // don't share this!!!
@@ -25,13 +33,14 @@ func Encode(id string, privateKey string) (string, error) {
 
 }
 
-func Decode(publicKey string, signed string) (json string, err error) {
+func Decode(publicKey string, signed string) (payload Payload, err error) {
 	var token *paseto.Token
 	var pubKey paseto.V4AsymmetricPublicKey
 	pubKey, err = paseto.NewV4AsymmetricPublicKeyFromHex(publicKey) // this wil fail if given key in an invalid format
 	fmt.Println(err)
 	parser := paseto.NewParser()                           // only used because this example token has expired, use NewParser() (which checks expiry by default)
 	token, err = parser.ParseV4Public(pubKey, signed, nil) // this will fail if parsing failes, cryptographic checks fail, or validation rules fail
-	json = string(token.ClaimsJSON())
-	return json, err
+	json.Unmarshal(token.ClaimsJSON(), &payload)
+
+	return payload, err
 }
