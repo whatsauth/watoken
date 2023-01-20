@@ -1,6 +1,7 @@
 package watoken
 
 import (
+	"encoding/base64"
 	"fmt"
 	"testing"
 
@@ -26,4 +27,9 @@ func TestWacipher(t *testing.T) {
 	rnd := RandomString(n)
 	require.Len(t, rnd, n)
 	fmt.Println("rnd : ", rnd)
+	host := "iteung.dev"
+	sEnc := base64.StdEncoding.EncodeToString([]byte(host))
+	wh := GetAppHost(rnd + "." + sEnc)
+	require.Equal(t, host, wh)
+	fmt.Println("wh : ", wh)
 }
