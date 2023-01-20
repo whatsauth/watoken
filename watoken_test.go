@@ -9,6 +9,8 @@ import (
 
 func TestWatoken(t *testing.T) {
 	privateKey, publicKey := GenerateKey()
+	fmt.Println("privateKey : ", privateKey)
+	fmt.Println("publicKey : ", publicKey)
 	userid := "awangga"
 
 	signed, err := Encode(userid, privateKey)
