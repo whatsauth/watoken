@@ -1,7 +1,6 @@
 # watoken
+
 Whatsauth Token using PASETO
-
-
 
 ## Tagging
 
