@@ -20,3 +20,10 @@ func TestWatoken(t *testing.T) {
 	fmt.Println("isi : ", body)
 	require.NoError(t, err)
 }
+
+func TestWacipher(t *testing.T) {
+	n := 100
+	rnd := RandomString(n)
+	require.Len(t, rnd, n)
+	fmt.Println("rnd : ", rnd)
+}
