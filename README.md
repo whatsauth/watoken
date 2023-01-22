@@ -14,9 +14,7 @@ import (
 )
 
 func TestWatoken(t *testing.T) {
-    // privateKey, publicKey := watoken.GenerateKey()
-	publicKey := "25ae7f7b1a959a94f977e6a334e62bc480da66dbf4de01718b252029e93917b8"
-	privateKey := "4c90438603a368b45aa70d918416aabb40a14f9477e478fb990402ec1def6b4f25ae7f7b1a959a94f977e6a334e62bc480da66dbf4de01718b252029e93917b8"
+    privateKey, publicKey := watoken.GenerateKey()
     
     //generate token for user awangga
 	userid := "awangga"
