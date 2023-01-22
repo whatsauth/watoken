@@ -14,20 +14,18 @@ import (
 )
 
 func TestWatoken(t *testing.T) {
-    privateKey, publicKey := watoken.GenerateKey()
+   privateKey, publicKey := watoken.GenerateKey()
     
-    //generate token for user awangga
- userid := "awangga"
- tokenstring, err := watoken.Encode(userid, privateKey)
+   //generate token for user awangga
+   userid := "awangga"
+   tokenstring, err := watoken.Encode(userid, privateKey)
 
     //decode token to get userid
- require.NoError(t, err)
- body, err := watoken.Decode(publicKey, tokenstring)
+   useridstring := DecodeGetId(publicKey, tokenstring)
+   if idstring == "" {
+       fmt.Println("expire token")
+   }
 
-
- fmt.Println("tokenstring : ", signed)
- fmt.Println("payload : ", body)
- require.NoError(t, err)
 }
 
 ```

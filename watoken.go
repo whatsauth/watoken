@@ -71,14 +71,22 @@ func Decode(publicKey string, tokenstring string) (payload Payload, err error) {
 	var pubKey paseto.V4AsymmetricPublicKey
 	pubKey, err = paseto.NewV4AsymmetricPublicKeyFromHex(publicKey) // this wil fail if given key in an invalid format
 	if err != nil {
-		fmt.Println("Deocode NewV4AsymmetricPublicKeyFromHex : ", err)
+		fmt.Println("Decode NewV4AsymmetricPublicKeyFromHex : ", err)
 	}
 	parser := paseto.NewParser()                                // only used because this example token has expired, use NewParser() (which checks expiry by default)
 	token, err = parser.ParseV4Public(pubKey, tokenstring, nil) // this will fail if parsing failes, cryptographic checks fail, or validation rules fail
 	if err != nil {
-		fmt.Println("Deocode ParseV4Public : ", err)
+		fmt.Println("Decode ParseV4Public : ", err)
 	} else {
 		json.Unmarshal(token.ClaimsJSON(), &payload)
 	}
 	return payload, err
+}
+
+func DecodeGetId(publicKey string, tokenstring string) string {
+	payload, err := Decode(publicKey, tokenstring)
+	if err != nil {
+		fmt.Println("Decode DecodeGetId : ", err)
+	}
+	return payload.Id
 }
