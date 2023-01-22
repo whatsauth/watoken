@@ -25,8 +25,8 @@ func TestWatoken(t *testing.T) {
  body, err := watoken.Decode(publicKey, tokenstring)
 
 
- fmt.Println("signed : ", signed)
- fmt.Println("isi : ", body)
+ fmt.Println("tokenstring : ", signed)
+ fmt.Println("payload : ", body)
  require.NoError(t, err)
 }
 
