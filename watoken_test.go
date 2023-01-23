@@ -61,9 +61,9 @@ func TestWacipher(t *testing.T) {
 	rnd := RandomString(n)
 	require.Len(t, rnd, n)
 	fmt.Println("rnd : ", rnd)
-	host := "iteung.dev"
+	host := "https://www.w3schools.com/js/js_window_location.asp"
 	sEnc := base64.StdEncoding.EncodeToString([]byte(host))
-	wh := GetAppHost(rnd + "." + sEnc)
-	require.Equal(t, host, wh)
+	wh := GetAppSubDomain(rnd + "." + sEnc)
+	require.Equal(t, "www", wh)
 	fmt.Println("wh : ", wh)
 }
