@@ -1,7 +1,9 @@
 package watoken
 
 import (
+	"crypto/md5"
 	"encoding/base64"
+	"encoding/hex"
 	"math/rand"
 	"strings"
 	"time"
@@ -37,4 +39,9 @@ func RandomString(length int) string {
 		b.WriteRune(chars[rand.Intn(len(chars))])
 	}
 	return b.String()
+}
+
+func GetMD5Hash(text string) string {
+	hash := md5.Sum([]byte(text))
+	return hex.EncodeToString(hash[:])
 }
