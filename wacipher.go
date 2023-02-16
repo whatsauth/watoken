@@ -7,6 +7,8 @@ import (
 	"math/rand"
 	"strings"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 func GetAppUrl(wuid string) string {
@@ -64,4 +66,9 @@ func RandomString(length int) string {
 func GetMD5Hash(text string) string {
 	hash := md5.Sum([]byte(text))
 	return hex.EncodeToString(hash[:])
+}
+
+func GetBcryptHash(text string) string {
+	bytes, _ := bcrypt.GenerateFromPassword([]byte(text), 14)
+	return string(bytes)
 }
