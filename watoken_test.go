@@ -67,3 +67,9 @@ func TestWacipher(t *testing.T) {
 	require.Equal(t, "www", wh)
 	fmt.Println("wh : ", wh)
 }
+func TestWaBcrypt(t *testing.T) {
+	hasil_hash := GetBcryptHash("akuapa")
+	fmt.Println(hasil_hash)
+	fmt.Println("Hasil Hash : ", hasil_hash)
+
+}
