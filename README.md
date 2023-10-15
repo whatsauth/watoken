@@ -22,7 +22,7 @@ func TestWatoken(t *testing.T) {
 
     //decode token to get userid
    useridstring := watoken.DecodeGetId(publicKey, tokenstring)
-   if idstring == "" {
+   if useridstring == "" {
        fmt.Println("expire token")
    }
 
