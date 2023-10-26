@@ -22,6 +22,29 @@ func TestWatoken(t *testing.T) {
 	require.NoError(t, err)
 }
 
+func TestWatokenStruct(t *testing.T) {
+	privateKey, publicKey := GenerateKey()
+	fmt.Println("privateKey : ", privateKey)
+	fmt.Println("publicKey : ", publicKey)
+	userid := "awangga"
+
+	type dataA struct {
+		Name string `json:"name"`
+	}
+
+	data := dataA{
+		Name: "awangga",
+	}
+
+	tokenstring, err := EncodeWithStruct(userid, &data, privateKey)
+	require.NoError(t, err)
+	body, err := DecodeWithStruct[dataA](publicKey, tokenstring)
+	fmt.Println("signed : ", tokenstring)
+	fmt.Println("isi : ", body)
+	fmt.Println("data di Payload : ", body.Data)
+	require.NoError(t, err)
+}
+
 func TestWatokenDuration(t *testing.T) {
 	privateKey, publicKey := GenerateKey()
 	fmt.Println("privateKey : ", privateKey)
@@ -67,6 +90,7 @@ func TestWacipher(t *testing.T) {
 	require.Equal(t, "www", wh)
 	fmt.Println("wh : ", wh)
 }
+
 func TestWaBcrypt(t *testing.T) {
 	hasil_hash := GetBcryptHash("akuapa")
 	fmt.Println(hasil_hash)
