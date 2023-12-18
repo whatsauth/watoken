@@ -52,8 +52,8 @@ func EncodeWithStruct[T any](id string, data *T, privateKey string) (string, err
 
 }
 
-func EncodeWithStructDuration[T any](id string, data *T, privateKey string, dur ...int) (string, error) {
-	duration := 2
+func EncodeWithStructDuration[T any](id string, data *T, privateKey string, dur ...time.Duration) (string, error) {
+	duration := time.Duration(2 * time.Hour)
 	if len(dur) > 0 {
 		duration = dur[0]
 	}
@@ -61,7 +61,7 @@ func EncodeWithStructDuration[T any](id string, data *T, privateKey string, dur 
 	token := paseto.NewToken()
 	token.SetIssuedAt(time.Now())
 	token.SetNotBefore(time.Now())
-	token.SetExpiration(time.Now().Add(time.Duration(duration) * time.Hour))
+	token.SetExpiration(time.Now().Add(duration))
 	token.SetString("id", id)
 
 	err := token.Set("data", data)
