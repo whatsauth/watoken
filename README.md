@@ -33,7 +33,7 @@ func TestWatoken(t *testing.T) {
 ## Tagging
 
 ```sh
-git tag v0.0.6
+git tag v0.1.7
 git push origin --tags
-go list -m github.com/whatsauth/watoken@v0.0.6
+go list -m github.com/whatsauth/watoken@v0.1.7
 ```
