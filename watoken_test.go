@@ -16,6 +16,10 @@ import (
 
 func TestWatoken(t *testing.T) {
 	privateKey, publicKey := GenerateKey()
+	println("PRIVATEKEY:")
+	println(privateKey)
+	println("PUBLICKEY")
+	println(publicKey)
 
 	//generate token for user awangga
 	userid := "awangga"
