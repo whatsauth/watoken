@@ -29,6 +29,8 @@ func TestWatoken(t *testing.T) {
 	useridstring, _ := DecodeGetId(publicKey, tokenstring)
 	if useridstring == "" {
 		fmt.Println("expire token")
+	} else {
+		println("id:" + useridstring)
 	}
 
 }
