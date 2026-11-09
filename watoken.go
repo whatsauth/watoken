@@ -16,6 +16,16 @@ type Payload[T any] struct {
 	Data  T         `json:"data"`
 }
 
+// sign menandatangani token dengan private key hex.
+// Jika key tidak valid, mengembalikan string kosong dan error, tidak pernah token.
+func sign(token *paseto.Token, privateKey string) (string, error) {
+	secretKey, err := paseto.NewV4AsymmetricSecretKeyFromHex(privateKey)
+	if err != nil {
+		return "", err
+	}
+	return token.V4Sign(secretKey, nil), nil
+}
+
 func GenerateKey() (privateKey, publicKey string) {
 	secretKey := paseto.NewV4AsymmetricSecretKey() // don't share this!!!
 	publicKey = secretKey.Public().ExportHex()     // DO share this one
@@ -29,8 +39,7 @@ func Encode(id string, privateKey string) (string, error) {
 	token.SetNotBefore(time.Now())
 	token.SetExpiration(time.Now().Add(2 * time.Hour))
 	token.SetString("id", id)
-	secretKey, err := paseto.NewV4AsymmetricSecretKeyFromHex(privateKey)
-	return token.V4Sign(secretKey, nil), err
+	return sign(&token, privateKey)
 
 }
 
@@ -46,8 +55,7 @@ func EncodeWithStruct[T any](id string, data *T, privateKey string) (string, err
 		return "", err
 	}
 
-	secretKey, err := paseto.NewV4AsymmetricSecretKeyFromHex(privateKey)
-	return token.V4Sign(secretKey, nil), err
+	return sign(&token, privateKey)
 
 }
 
@@ -68,8 +76,7 @@ func EncodeWithStructDuration[T any](id string, data *T, privateKey string, dur 
 		return "", err
 	}
 
-	secretKey, err := paseto.NewV4AsymmetricSecretKeyFromHex(privateKey)
-	return token.V4Sign(secretKey, nil), err
+	return sign(&token, privateKey)
 
 }
 
@@ -80,8 +87,7 @@ func EncodeforHours(id, alias, privateKey string, hours int32) (string, error) {
 	token.SetExpiration(time.Now().Add(time.Duration(hours) * time.Hour))
 	token.SetString("id", id)
 	token.SetString("alias", alias)
-	secretKey, err := paseto.NewV4AsymmetricSecretKeyFromHex(privateKey)
-	return token.V4Sign(secretKey, nil), err
+	return sign(&token, privateKey)
 
 }
 
@@ -91,8 +97,7 @@ func EncodeforMinutes(id string, privateKey string, minutes int32) (string, erro
 	token.SetNotBefore(time.Now())
 	token.SetExpiration(time.Now().Add(time.Duration(minutes) * time.Minute))
 	token.SetString("id", id)
-	secretKey, err := paseto.NewV4AsymmetricSecretKeyFromHex(privateKey)
-	return token.V4Sign(secretKey, nil), err
+	return sign(&token, privateKey)
 
 }
 
@@ -102,8 +107,7 @@ func EncodeforSeconds(id string, privateKey string, seconds int32) (string, erro
 	token.SetNotBefore(time.Now())
 	token.SetExpiration(time.Now().Add(time.Duration(seconds) * time.Second))
 	token.SetString("id", id)
-	secretKey, err := paseto.NewV4AsymmetricSecretKeyFromHex(privateKey)
-	return token.V4Sign(secretKey, nil), err
+	return sign(&token, privateKey)
 
 }
 

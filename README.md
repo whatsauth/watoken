@@ -8,34 +8,45 @@ Whatsauth Token using PASETO, How to Use :
 package controller
 
 import (
- "fmt"
- "testing"
+	"testing"
 
- "github.com/stretchr/testify/require"
- "github.com/whatsauth/watoken"
+	"github.com/whatsauth/watoken"
 )
 
 func TestWatoken(t *testing.T) {
-   privateKey, publicKey := watoken.GenerateKey()
-    
-   //generate token for user awangga
-   userid := "awangga"
-   tokenstring, err := watoken.Encode(userid, privateKey)
+	privateKey, publicKey := watoken.GenerateKey()
 
-    //decode token to get userid
-   useridstring := watoken.DecodeGetId(publicKey, tokenstring)
-   if useridstring == "" {
-       fmt.Println("expire token")
-   }
+	// generate token for user awangga (berlaku 2 jam)
+	tokenstring, err := watoken.Encode("awangga", privateKey)
+	if err != nil {
+		t.Fatal(err) // key tidak valid: token selalu kosong
+	}
 
+	// decode token to get userid
+	userid, err := watoken.DecodeGetId(publicKey, tokenstring)
+	if err != nil {
+		t.Fatal(err) // token palsu, diubah, atau kedaluwarsa
+	}
+	t.Log("id:", userid)
 }
-
 ```
+
+Semua fungsi `Encode*` mengembalikan string kosong dan error jika private key tidak valid, jadi selalu cek `err` sebelum memakai token.
+
+## Generate Key
+
+Untuk membuat pasangan `PRIVATEKEY` dan `PUBLICKEY`, clone repo ini lalu jalankan:
+
+```sh
+go test -run TestWatoken
+```
+
+Key dicetak ke output. Simpan private key sebagai secret dan jangan di-commit.
 
 ## Tagging
 
 ```sh
-git tag v0.1.8
+git tag v0.1.9
 git push origin --tags
-go list -m github.com/whatsauth/watoken@v0.1.8
+go list -m github.com/whatsauth/watoken@v0.1.9
 ```
